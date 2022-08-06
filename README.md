@@ -54,6 +54,7 @@ kakao together ppt작성
 ---|---|
 이승대|balthru119@gmail.com|
 김세호|jsklae@naver.com| 
+김준오|anint3647@naver.com|
 
 
 
