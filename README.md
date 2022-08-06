@@ -50,7 +50,10 @@ admin 로그인 및 일반회원 비밀번호 체크 구현
 kakao together ppt작성
 
 
- balthru119@gmail.com 
+이름|이메일|
+---|---|
+이승대|balthru119@gmail.com|
+김세호|jsklae@naver.com| 
 
 
 
