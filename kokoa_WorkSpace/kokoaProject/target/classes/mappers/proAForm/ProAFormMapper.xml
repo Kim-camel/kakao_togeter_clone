@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kokoa.together.mapper.proAForm.ProAFormMapper">
+	
+	<insert id="aFormSave">
+		insert into Pro_AForm(PA_No, PA_Id, PA_Title, PA_Content, PAT_Img, PA_Cop)
+		values(aForm_seq.nextval , #{paId}, #{paTitle}, #{paContent}, #{patImg}, #{paCop})
+	</insert>
+	
+</mapper>  

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kokoa.together.mapper.heart.HeartMapper">
+<resultMap type="com.kokoa.together.heart.dto.HeartDTO" id="heart">	
+		<result property="bno" column="bno"/>
+		<result property="hno" column="hno"/>
+		<result property="heart" column="heart"/>
+		<result property="heartWriter" column="heart_writer"/>
+		<result property="cno" column="cno"/>
+	</resultMap>
+<!-- <resultMap type="com.care.root.comment.dto.ChDTO" id="comment">	 -->
+<!-- 		<result property="heart" column="heart"/> -->
+<!-- 		<result property="heartWriter" column="heart_writer" /> -->
+<!-- 	</resultMap> -->
+	<insert id="insert">
+		insert into heart(hno,bno,heart_writer,heart,cno) values(heart_seq.nextval, #{bno},#{heartWriter}, 1,#{cno})
+	</insert>
+	<select id="likeform" resultMap="heart">
+		select * from heart where heart_writer=#{heartWriter} and bno=#{bno} and cno=#{cno}
+	</select>
+	<delete id="delete">
+		delete from heart where cno=#{cno} and heart_writer=#{heartWriter}
+	</delete>
+	 <select id="heartCount" resultMap="heart">
+    select * from heart where bno=#{bno}
+    </select>
+    <select id="heartCnt" resultType="int">
+    select count(heart) from heart where cno=#{cno} and bno=#{bno}
+    </select>
+</mapper>  

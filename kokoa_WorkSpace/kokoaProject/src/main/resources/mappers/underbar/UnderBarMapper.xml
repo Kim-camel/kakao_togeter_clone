@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kokoa.together.mapper.underbar.UnderBarMapper">
+<resultMap type="com.kokoa.together.underbar.dto.UnderBarDTO" id="underbar">	
+		<result property="bno" column="bno"/>
+		<result property="cno" column="cno"/>
+		<result property="ubdPirce" column="ubdPirce"/>
+		<result property="ubHeart" column="ubHeart"/>
+		<result property="ubShare" column="ubShare"/>
+		<result property="ubDirect" column="ubDirect"/>
+		<result property="ubdno" column="ubdno"/>
+		<result property="ubWriter" column="ubWriter"/>
+</resultMap>
+<select id="ubsCount" resultType="Integer">
+select count(ubShare) from underbar where bno=#{bno} and ubShare=1
+</select>
+<select id="ubhCount" resultType="Integer">
+select count(ubHeart) from underbar where bno=#{bno} and ubHeart=1
+</select>
+<select id="ubhCheck" resultMap="underbar">
+select * from underbar where bno=#{bno}
+</select>
+<insert id="ubStart">
+insert into underbar(ubHeart,ubShare,ubWriter,bno) values(0,0,#{ubWriter},#{bno})
+</insert>
+<select id="ubform" resultType="Integer">
+<choose>
+<!--응원하기  -->
+<when test="check==1">
+	select ubHeart from underbar where ubWriter=#{ubWriter} and bno=#{bno}
+</when>
+<!--공유하기  -->
+<when test="check==2">
+	select ubShare from underbar where ubWriter=#{ubWriter} and bno=#{bno}
+</when>
+</choose>
+</select>
+
+<update id="ubinsert">
+<choose>
+<!--응원하기  -->
+<when test="check==1">
+update underbar set ubHeart=1 where ubWriter=#{ubWriter} and bno=#{bno}
+</when>
+<!--공유하기  -->
+<when test="check==2">
+update underbar set ubShare=1 where ubWriter=#{ubWriter} and bno=#{bno}
+</when>
+</choose>
+</update>
+
+</mapper> 
+<!-- merge  문
+ 	merge into underbar u using dual on(u.ubHeart=0) when matched then update set u.ubHeart=1 
+	where u.ubWriter=#{ubWriter} and u.bno=#{bno} when not matched then  
+	insert (u.ubHeart,u.ubWriter,u.bno) values(1,#{ubWriter},#{bno}) -->

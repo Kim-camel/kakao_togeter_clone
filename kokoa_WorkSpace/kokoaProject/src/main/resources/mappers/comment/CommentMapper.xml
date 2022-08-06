@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kokoa.together.mapper.comment.CommentMapper">
+<resultMap type="com.kokoa.together.comment.dto.CommentDTO" id="comment">	
+		<result property="cno" column="cno"/>
+		<result property="bno" column="bno"/>
+		<result property="writer" column="writer"/>
+		<result property="content" column="content"/>
+		<result property="commentDate" column="commentDate"/>
+		<result property="cnt" column="cnt"/>
+		<result property="heartTotal" column="heartTotal"/>
+		<result property="money" column="money"/>
+</resultMap>
+<select id="commentTotal" resultType="String">
+<!-- select count(money) from comments where bno=#{bno} and money<'150'and money>'0' -->
+<![CDATA[
+select count(money) from comments where bno=#{bno} and money='100'
+
+    ]]>
+</select>
+<select id="directTotal" resultType="String">
+<!-- select count(money) from comments where bno=#{bno} and money>'150' -->
+<![CDATA[
+select count(money) from comments where bno=#{bno} and money<'100'and money>'0'
+    ]]>
+</select>
+
+<select id="pageTotalMoney" resultType="String">
+select money from comments where bno=#{bno}
+</select>
+<select id="checkMoney" resultType="Integer">
+select count(content) from comments where bno=#{bno} and writer=#{writer}
+</select>
+
+	<select id = "commentList" resultMap="comment">
+SELECT cno, bno, writer, content, money, cnt, heartTotal, commentDate FROM comments WHERE bno = #{bno} ORDER BY cno DESC
+    </select>
+     <insert id ="commentInsert">
+INSERT INTO comments(cno, bno, writer, content,commentDate,cnt,money) VALUES (comment_seq.nextval, #{bno}, #{writer}, #{content},#{commentDate},#{cnt},#{money})
+    </insert>
+    <delete id="commentDelete" parameterType="int">
+DELETE comments WHERE cno=#{cno}
+    </delete>
+    
+    <select id="commentCount" resultType="int">
+select count(*) from comments
+    </select>
+    
+    <update id ="updateCnt" parameterType="int">
+    update comments set cnt=#{cnt} where bno=#{bno}
+    </update>
+  	
+  	<update id="updateHc" parameterType="int">
+  	update comments set heartTotal=#{heartTotal} where cno=#{cno}
+  	</update>
+</mapper>

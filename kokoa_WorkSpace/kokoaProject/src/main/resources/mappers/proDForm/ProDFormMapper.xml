@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kokoa.together.mapper.proDForm.ProDFormMapper">
+<resultMap type="com.kokoa.together.proDForm.dto.ProDFormDTO" id="DForm">
+		<id property="pdNo" column="PD_No" />
+		<result property="pdtSep" column="PDT_Sep" />
+		<result property="pdsDate" column="PDS_Date" />
+		<result property="pdeDate" column="PDE_Date" />
+		<result property="pdId" column="PD_Id" />
+		<result property="pdTitle" column="PD_Title" />
+		<result property="pdContent" column="PD_Content" />
+		<result property="pdtImg" column="PDT_Img" />
+		<result property="pdCop" column="PD_Cop" />
+	</resultMap>
+	
+	<insert id="dFormSave">
+		insert into Pro_DForm(PD_No, PDT_Sep, PDS_Date, PDE_Date, PD_Id, PD_Title, PD_Content, PDT_Img, PD_Cop)
+		values(dForm_seq.nextval , #{pdtSep}, #{pdsDate}, #{pdeDate}, #{pdId}, #{pdTitle}, #{pdContent}, #{pdtImg}, #{pdCop})
+	</insert>
+	
+	<select id="selDForm" resultMap="DForm">
+		select * from Pro_DForm where PD_No=#{pdNo}
+	</select>
+	
+	<select id="DFormCount" resultType="int">
+		select count(*) from Pro_DForm
+	</select>
+	
+ 	<select id="DFormList" resultMap="DForm" >
+		select B.* from(select rownum rn, A.* from
+		(select * from Pro_DForm order by PDS_Date asc)A)B where rn between #{s} and #{e}
+	</select>
+	<delete id="delete">
+		delete from Pro_DForm where PD_No = #{pdNo }
+	</delete>
+</mapper>  

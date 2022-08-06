@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+  <mapper namespace="com.kokoa.together.mapper.userInfo.UserInfoMapper">
+<!--  select 쿼리문쓸때 반드시 resultMap를 설정해줘야함. primary key=id로 설정 아닌것은 result로 설정-->
+	<!-- resultMap type=은 dto 위치 id=별칭! -->
+
+ 	<resultMap type="com.kokoa.together.userInfo.DTO.UserInfoDTO" id="user_info">
+ 		<id property="UId" column="u_id"/>
+ 		<result property="UPwd" column="u_pwd"/>
+ 		<result property="UName" column="u_name"/>
+ 		<result property="UMail" column="u_mail"/>
+ 		<result property="UImg" column="u_img"/>
+ 		<result property="UPostAddr" column="u_postaddr"/>
+ 		<result property="URoadAddr" column="u_roadaddr"/>
+ 		<result property="UDetailAddr" column="u_detailaddr"/>
+ 		<result property="UBirth" column="u_birth"/>
+ 		<result property="UGen" column="u_gen"/>
+ 		<result property="UTel" column="u_tel"/>
+ 	</resultMap>
+ 	<!--앞쪽은 데이터베이스 컬럼을   values에는 DTO에서 만든 것으로써야함.-->	
+	
+	<insert id="register">
+		insert into user_info (u_id,u_pwd,u_name,u_mail,u_postaddr,u_roadaddr,u_detailaddr,u_gen,u_tel,u_birth) 
+      values (#{UId},#{UPwd},#{UName},#{UMail},#{UPostAddr},#{URoadAddr},#{UDetailAddr},#{UGen},#{UTel},#{UBirth})
+	</insert>
+	
+ 	<select id="idCheck" parameterType="String" resultType="int">
+        SELECT COUNT(u_id) FROM user_info WHERE u_id= #{UId}
+    </select>
+  
+   	<select id="logChk" resultMap="user_info">
+		select * from user_info where u_id=#{UId}
+	</select>
+	
+	<update id="keepLogin"> 
+	    update user_info set session_id=#{SessionId}, limit_time=#{LimitTime} where u_id=#{UId} 
+	</update>
+  
+  <update id="userUpdate">
+  	update user_info set u_name=#{UName}, u_mail=#{UMail}, u_postaddr=#{UPostAddr},
+  	 u_roadaddr=#{URoadAddr},u_detailaddr=#{UDetailAddr},u_gen=#{UGen},u_tel=#{UTel},u_birth=#{UBirth} where u_id=#{UId} 
+  </update>
+  
+   <delete id="userDelete">
+        delete from user_info where u_id=#{UId}
+    </delete>
+  
+ 
+  
+  </mapper>

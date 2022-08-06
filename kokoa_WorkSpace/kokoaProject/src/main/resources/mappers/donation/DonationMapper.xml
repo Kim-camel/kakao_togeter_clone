@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kokoa.together.mapper.donation.DonationMapper">
+<resultMap type="com.kokoa.together.donation.dto.DonationDTO" id="DoForm">
+		<id property="dNo" column="D_No" />
+		<result property="dSep" column="D_Sep" />
+		<result property="dsDate" column="DS_Date" />
+		<result property="deDate" column="DE_Date" />
+		<result property="dTitle" column="D_Title" />
+		<result property="dContent" column="D_Content" />
+		<result property="dCop" column="D_Cop" />
+		<result property="dtImg" column="DT_Img" />
+		<result property="tdTarget" column="TD_Target" />
+	</resultMap>
+	<insert id="doFormSave">
+		insert into Donation(D_No, D_Sep, DS_Date, DE_Date, D_Title, D_Content, D_Cop, DT_Img, TD_Target)
+		values(donation_seq.nextval , #{dSep}, #{dsDate}, #{deDate}, #{dTitle}, #{dContent}, #{dCop}, #{dtImg}, #{tdTarget})
+	</insert>
+ 	<select id="nowList" resultMap="DoForm">
+ 		<choose>
+	 		<when test="dSep == 0 and sort != 3 and sort != 4">
+	 			<if test="sort == 0 or sort == 1">
+					select * from Donation where de_date &gt; sysdate order by de_date asc
+	 			</if>
+	 			<if test="sort == 2">
+	 				select * from Donation where de_date &gt; sysdate order by ds_date asc
+	 			</if>
+	 		</when>
+			<otherwise>
+	 			<if test="sort == 0 or sort == 1">
+					select * from Donation where D_Sep=#{dSep} and de_date &gt; sysdate order by de_date asc
+				</if>
+				<if test="sort == 2">
+	 				select * from Donation where D_Sep=#{dSep} and de_date &gt; sysdate order by ds_date asc
+	 			</if>
+	 			<if test="sort == 3">
+	 				select * from Donation where de_date &lt; sysdate order by ds_date asc
+	 			</if>
+	 			<if test="sort == 4">
+	 				select * from Donation where de_date &gt; sysdate and rownum &lt; 9 order by de_date asc
+	 			</if>
+			</otherwise>
+ 		</choose>
+	</select>
+	
+	<select id="selForm" resultMap="DoForm">
+		select * from Donation where D_No=#{dNo}
+	</select>
+</mapper>

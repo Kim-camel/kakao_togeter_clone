@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kokoa.together.mapper.conduct.ConductMapper">
+<resultMap type="com.kokoa.together.conduct.dto.ConductDTO" id="conForm">
+		<id property="coNo" column="CO_No" />
+		<result property="coSep" column="CO_Sep" />
+		<result property="coTitle" column="CO_Title" />
+		<result property="coContent" column="CO_Content" />
+		<result property="coCop" column="CO_Cop" />
+		<result property="coImg" column="CO_Img" />
+	</resultMap>
+	
+	<insert id="coFormSave">
+		insert into conduct(CO_No, CO_Title, CO_Content, CO_Img, CO_Cop, CO_Sep)
+		values(Conduct_seq.nextval, #{coTitle}, #{coContent}, #{coImg}, #{coCop} , #{coSep})
+	</insert>
+	<select id="conductList" resultMap="conForm">
+		select * from conduct
+	</select>
+	<select id="selForm" resultMap="conForm">
+		select * from conduct where CO_No=#{coNo}
+	</select>
+</mapper>  
